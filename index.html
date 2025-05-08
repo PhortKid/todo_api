@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add todo</title>
+</head>
+<body>
+
+  <form onsubmit="addTodo()">
+    <input type="text" id="name" required>
+    <input type="date" id="date" required>
+    <input type="time" id="time" required>
+    <input type="submit" value="add todo">
+  </form>
+    
+
+<script>
+  
+
+//hii ni ya kusend data kwenda kwenye addtodo.php
+function addTodo(){
+  const name =document.getElementById('name').value;
+  const date = document.getElementById('date').value;
+  const time =document.getElementById('time').value;
+
+  const formData = new URLSearchParams();
+  formData.append('name', name);
+  formData.append('date', date);
+  formData.append('time', time);
+
+  fetch('http://localhost/todo_api/add_todo.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: formData.toString()
+  })
+  .then(response => response.json())
+  .then(data => {
+    if(data['status']==='success'){
+        alert('data inserted');
+    }else{
+       alert('data not inserted');
+    }
+    
+  })
+  .catch(error => {
+    console.error('Fetch error:', error);
+  });
+
+
+}
+</script>
+</body>
+</html>
